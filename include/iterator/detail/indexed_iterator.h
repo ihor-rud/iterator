@@ -1,4 +1,4 @@
-#include "bind_proxy.h"
+#include <iterator/detail/bind_proxy.h>
 
 namespace iterator::detail {
 
