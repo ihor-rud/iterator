@@ -1,3 +1,4 @@
+#pragma once
 #include <type_traits>
 #include <tuple>
 
@@ -17,52 +18,52 @@ constexpr bool has_get_v = has_get<T>::value;
 
 
 template<typename T, typename Cond = std::void_t<>>
-struct calculate_gets
+struct number_of_gets
 {
 	constexpr static std::size_t value = 1;
 };
 
 template<typename T>
-struct calculate_gets<T, std::enable_if_t<has_get_v<T>, std::void_t<>>>
+struct number_of_gets<T, std::enable_if_t<has_get_v<T>>>
 {
 	constexpr static std::size_t value = std::tuple_size_v<T>;
 };
 
 template<typename T>
-constexpr std::size_t calculate_gets_v = calculate_gets<T>::value;
+constexpr std::size_t number_of_gets_v = number_of_gets<T>::value;
 
 template<typename T>
-constexpr std::size_t tuple_size_v = calculate_gets_v<T> + 1;
+constexpr std::size_t indexed_iter_tuple_size_v = number_of_gets_v<T> + 1;
 
 
 
 template<typename T, typename Cond = std::void_t<>>
-struct hide_get
+struct hide_tuple_element
 {
 	template<std::size_t I>
 	using type = T;
 };
 
 template<typename T>
-struct hide_get<T, std::enable_if_t<has_get_v<T>, std::void_t<>>>
+struct hide_tuple_element<T, std::enable_if_t<has_get_v<T>>>
 {
 	template<std::size_t I>
 	using type = std::tuple_element_t<I, T>;
 };
 
-struct tuple_element
+struct indexed_iter_tuple_element
 {
 	template<std::size_t I, typename T>
-	static auto check_get(T obj) -> std::enable_if_t<I <  calculate_gets_v<T>, hide_get<T>>;
+	static auto check_get(T obj) -> std::enable_if_t<I <  number_of_gets_v<T>, hide_tuple_element<T>>;
 
 	template<std::size_t I, typename T>
-	static auto check_get(T obj) -> std::enable_if_t<I == calculate_gets_v<T>, hide_get<const std::size_t>>;
+	static auto check_get(T obj) -> std::enable_if_t<I == number_of_gets_v<T>, hide_tuple_element<const std::size_t>>;
 
 	template<std::size_t I, typename T>
 	using type = typename decltype(check_get<I>(std::declval<T&>()))::template type<I>;
 };
 
 template<std::size_t I, typename T>
-using tuple_element_t = typename tuple_element::type<I, T>;
+using indexed_iter_tuple_element_t = typename indexed_iter_tuple_element::type<I, T>;
 
-}
+} // namespace iterator::detail::mpl

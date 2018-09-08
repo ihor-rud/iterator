@@ -1,7 +1,8 @@
+#pragma once
 #include <boost/preprocessor/repetition/repeat.hpp>
 #include <boost/preprocessor/repetition/enum.hpp>
 
-#define TEXT(z, index, data) data
+#define TEXT(z, index, data)                    data
 
 #define NAME_ELEMENT(z, index, _)               element ## index
 
@@ -16,19 +17,19 @@
 
 
 
-#define FOR_LOOP_AUTO_CHECK(type, number) \
-	for(type auto [BOOST_PP_ENUM(number, NAME_ELEMENT, _), loop_index] : iterator::with_index(data)) \
+#define FOR_LOOP_AUTO_CHECK(cv_type, number) \
+	for(cv_type auto [BOOST_PP_ENUM(number, NAME_ELEMENT, _), loop_index] : iterator::with_index(data)) \
 	{ \
 		EXPECT_DIFERENT_ADRESS_REPEAT(number); \
-		EXPECT_TYPE_REPEAT(number, type TypeParam); \
+		EXPECT_TYPE_REPEAT(number, cv_type TypeParam); \
 		testing::StaticAssertTypeEq<const std::size_t, decltype(loop_index)>(); \
 	}
 
-#define FOR_LOOP_AUTO_REF_CHECK(type, loop_type, number) \
-	for(type loop_type [BOOST_PP_ENUM(number, NAME_ELEMENT, _), loop_index] : iterator::with_index(data)) \
+#define FOR_LOOP_AUTO_REF_CHECK(cv_type, ref_type, number) \
+	for(cv_type auto ref_type [BOOST_PP_ENUM(number, NAME_ELEMENT, _), loop_index] : iterator::with_index(data)) \
 	{ \
 		EXPECT_SAME_ADRESS_REPEAT(number); \
-		EXPECT_TYPE_REPEAT(number, type TypeParam); \
+		EXPECT_TYPE_REPEAT(number, cv_type TypeParam); \
 		testing::StaticAssertTypeEq<const std::size_t, decltype(loop_index)>(); \
 	}
 
@@ -39,7 +40,7 @@
 		std::vector<std::tuple<BOOST_PP_ENUM(n, TEXT, TypeParam)>> data(10); \
 		FOR_LOOP_AUTO_CHECK(     , n); \
 		FOR_LOOP_AUTO_CHECK(const, n); \
-		FOR_LOOP_AUTO_REF_CHECK(     , auto& , n); \
-		FOR_LOOP_AUTO_REF_CHECK(const, auto& , n); \
-		FOR_LOOP_AUTO_REF_CHECK(     , auto&&, n); \
+		FOR_LOOP_AUTO_REF_CHECK(     , & , n); \
+		FOR_LOOP_AUTO_REF_CHECK(const, & , n); \
+		FOR_LOOP_AUTO_REF_CHECK(     , &&, n); \
 	}

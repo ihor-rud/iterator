@@ -1,3 +1,4 @@
+#pragma once
 #include <iterator/detail/bind_proxy.h>
 
 namespace iterator::detail {
@@ -31,4 +32,4 @@ private:
 	bind_proxy<typename T::value_type> proxy;
 };
 
-}
+} // namespace iterator::detail

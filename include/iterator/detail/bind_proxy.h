@@ -1,3 +1,4 @@
+#pragma once
 #include <iterator/detail/mpl.h>
 
 namespace iterator::detail {
@@ -25,32 +26,13 @@ public:
 	}
 
 	template<std::size_t I>
-	decltype(auto) get()
-	{
-		if constexpr(mpl::has_get_v<T>)
-		{
-			static_assert(I < mpl::tuple_size_v<T>);
-			if constexpr(I < mpl::calculate_gets_v<T>)
-				return std::get<I>(*data);
-
-			else return (index);
-		}
-
-		else
-		{
-			static_assert(I < 2);
-			if constexpr(I == 0) return *data;
-			if constexpr(I == 1) return (index);
-		}
-	}
-
-	template<std::size_t I>
 	decltype(auto) get() const
 	{
+		static_assert(I < mpl::indexed_iter_tuple_size_v<T>);
+
 		if constexpr(mpl::has_get_v<T>)
 		{
-			static_assert(I < mpl::tuple_size_v<T>);
-			if constexpr(I < mpl::calculate_gets_v<T>)
+			if constexpr(I < mpl::number_of_gets_v<T>)
 				return std::get<I>(*data);
 
 			else return (index);
@@ -58,7 +40,6 @@ public:
 
 		else
 		{
-			static_assert(I < 2);
 			if constexpr(I == 0) return *data;
 			if constexpr(I == 1) return (index);
 		}
@@ -76,19 +57,20 @@ private:
 	bool copy = false;
 };
 
-}
+} // namespace iterator::detail
 
-namespace std
-{
+namespace std {
+
 	template<typename T>
 	struct tuple_size<::iterator::detail::bind_proxy<T>>
 	{
-		constexpr static size_t value = ::iterator::detail::mpl::tuple_size_v<T>;
+		constexpr static size_t value = ::iterator::detail::mpl::indexed_iter_tuple_size_v<T>;
 	};
 
 	template<size_t I, typename T>
 	struct tuple_element<I, ::iterator::detail::bind_proxy<T>>
 	{
-		using type = ::iterator::detail::mpl::tuple_element_t<I, T>;
+		using type = ::iterator::detail::mpl::indexed_iter_tuple_element_t<I, T>;
 	};
-}
+
+} // namespace std
