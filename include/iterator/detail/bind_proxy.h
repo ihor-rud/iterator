@@ -35,20 +35,19 @@ public:
 			if constexpr(I < mpl::number_of_gets_v<T>)
 				return std::get<I>(*data);
 
-			else return (index);
+			else return index;
 		}
 
 		else
 		{
 			if constexpr(I == 0) return *data;
-			if constexpr(I == 1) return (index);
+			if constexpr(I == 1) return index;
 		}
 	}
 
 	~bind_proxy()
 	{
 		if(copy) delete data;
-		copy = false;
 	}
 
 private:
