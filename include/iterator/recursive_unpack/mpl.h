@@ -1,6 +1,6 @@
 #pragma once
-#include <type_traits>
 #include <tuple>
+#include <type_traits>
 
 namespace iterator::detail::mpl {
 
