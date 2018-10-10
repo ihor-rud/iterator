@@ -60,16 +60,16 @@ private:
 
 namespace std {
 
-	template<typename T>
-	struct tuple_size<::iterator::detail::bind_proxy<T>>
-	{
-		constexpr static size_t value = ::iterator::detail::mpl::indexed_iter_tuple_size_v<T>;
-	};
+template<typename T>
+struct tuple_size<::iterator::detail::bind_proxy<T>>
+{
+	constexpr static size_t value = ::iterator::detail::mpl::indexed_iter_tuple_size_v<T>;
+};
 
-	template<size_t I, typename T>
-	struct tuple_element<I, ::iterator::detail::bind_proxy<T>>
-	{
-		using type = ::iterator::detail::mpl::indexed_iter_tuple_element_t<I, T>;
-	};
+template<size_t I, typename T>
+struct tuple_element<I, ::iterator::detail::bind_proxy<T>>
+{
+	using type = ::iterator::detail::mpl::indexed_iter_tuple_element_t<I, T>;
+};
 
 } // namespace std

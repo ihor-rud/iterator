@@ -8,8 +8,8 @@ template <typename T>
 class with_index_test : public testing::Test
 {};
 
-using MyTypes = ::testing::Types<float, double, std::string>;
-TYPED_TEST_CASE(with_index_test, MyTypes);
+using tested_types = ::testing::Types<float, double, std::string>;
+TYPED_TEST_CASE(with_index_test, tested_types);
 
 TYPED_TEST(with_index_test, vector_with_single_elem)
 {
@@ -19,49 +19,46 @@ TYPED_TEST(with_index_test, vector_with_single_elem)
 	{
 		EXPECT_EQ(elem, data[index]);
 		EXPECT_NE(&elem, &data[index]);
-		testing::StaticAssertTypeEq<TypeParam, decltype(elem)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<TypeParam, decltype(elem)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 
 	for(const auto [elem, index] : with_index(data))
 	{
 		EXPECT_EQ(elem, data[index]);
 		EXPECT_NE(&elem, &data[index]);
-		testing::StaticAssertTypeEq<const TypeParam, decltype(elem)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<const TypeParam, decltype(elem)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 
 	for(auto& [elem, index] : with_index(data))
 	{
 		EXPECT_EQ(elem, data[index]);
 		EXPECT_EQ(&elem, &data[index]);
-		testing::StaticAssertTypeEq<TypeParam, decltype(elem)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<TypeParam, decltype(elem)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 
 	for(const auto& [elem, index] : with_index(data))
 	{
 		EXPECT_EQ(elem, data[index]);
 		EXPECT_EQ(&elem, &data[index]);
-		testing::StaticAssertTypeEq<const TypeParam, decltype(elem)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<const TypeParam, decltype(elem)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 
 	for(auto&& [elem, index] : with_index(data))
 	{
 		EXPECT_EQ(elem, data[index]);
 		EXPECT_EQ(&elem, &data[index]);
-		testing::StaticAssertTypeEq<TypeParam, decltype(elem)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<TypeParam, decltype(elem)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 }
 
 DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 1);
 DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 2);
 DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 3);
-DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 4);
-DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 5);
-DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 6);
 
 TYPED_TEST(with_index_test, normal_map)
 {
@@ -69,37 +66,37 @@ TYPED_TEST(with_index_test, normal_map)
 
 	for(auto [key, data, index] : with_index(data))
 	{
-		testing::StaticAssertTypeEq<const TypeParam, decltype(key)>();
-		testing::StaticAssertTypeEq<TypeParam, decltype(data)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
+		static_assert(std::is_same_v<TypeParam, decltype(data)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 
 	for(const auto [key, data, index] : with_index(data))
 	{
-		testing::StaticAssertTypeEq<const TypeParam, decltype(key)>();
-		testing::StaticAssertTypeEq<const TypeParam, decltype(data)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
+		static_assert(std::is_same_v<const TypeParam, decltype(data)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 
 	for(auto& [key, data, index] : with_index(data))
 	{
-		testing::StaticAssertTypeEq<const TypeParam, decltype(key)>();
-		testing::StaticAssertTypeEq<TypeParam, decltype(data)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
+		static_assert(std::is_same_v<TypeParam, decltype(data)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 
 	for(const auto& [key, data, index] : with_index(data))
 	{
-		testing::StaticAssertTypeEq<const TypeParam, decltype(key)>();
-		testing::StaticAssertTypeEq<const TypeParam, decltype(data)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
+		static_assert(std::is_same_v<const TypeParam, decltype(data)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 
 	for(auto&& [key, data, index] : with_index(data))
 	{
-		testing::StaticAssertTypeEq<const TypeParam, decltype(key)>();
-		testing::StaticAssertTypeEq<TypeParam, decltype(data)>();
-		testing::StaticAssertTypeEq<const std::size_t, decltype(index)>();
+		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
+		static_assert(std::is_same_v<TypeParam, decltype(data)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
 	}
 }
 

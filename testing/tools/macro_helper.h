@@ -12,7 +12,7 @@
 #define EXPECT_DIFERENT_ADRESS_REPEAT(n)        BOOST_PP_REPEAT(n, EXPECT_COMPARISON, EXPECT_NE)
 #define EXPECT_SAME_ADRESS_REPEAT(n)            BOOST_PP_REPEAT(n, EXPECT_COMPARISON, EXPECT_EQ)
 
-#define EXPECT_TYPE(z, index, type)             testing::StaticAssertTypeEq<type, decltype(NAME_ELEMENT(_, index, _))>();
+#define EXPECT_TYPE(z, index, type)             static_assert(std::is_same_v<type, decltype(NAME_ELEMENT(_, index, _))>);
 #define EXPECT_TYPE_REPEAT(n, type)             BOOST_PP_REPEAT(n, EXPECT_TYPE, type)
 
 
@@ -22,7 +22,7 @@
 	{ \
 		EXPECT_DIFERENT_ADRESS_REPEAT(number); \
 		EXPECT_TYPE_REPEAT(number, cv_type TypeParam); \
-		testing::StaticAssertTypeEq<const std::size_t, decltype(loop_index)>(); \
+		static_assert(std::is_same_v<const std::size_t, decltype(loop_index)>); \
 	}
 
 #define FOR_LOOP_AUTO_REF_CHECK(cv_type, ref_type, number) \
@@ -30,7 +30,7 @@
 	{ \
 		EXPECT_SAME_ADRESS_REPEAT(number); \
 		EXPECT_TYPE_REPEAT(number, cv_type TypeParam); \
-		testing::StaticAssertTypeEq<const std::size_t, decltype(loop_index)>(); \
+		static_assert(std::is_same_v<const std::size_t, decltype(loop_index)>); \
 	}
 
 
