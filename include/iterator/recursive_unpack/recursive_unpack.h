@@ -54,13 +54,18 @@ public:
 	{
 		static_assert(Idx < mpl::recursive_unpack_tuple_size_v<data_type>);
 
-		if constexpr(N && mpl::has_get_v<data_type>)
+		if constexpr(mpl::has_get_v<data_type>)
 		{
 			if constexpr(Idx < mpl::number_of_gets_v<data_type>)
 				return std::get<Idx>(*this->iter);
+			else
+				return recursive_unpack<Iter, 0>::template get<1>();
 		}
 
-		return recursive_unpack<Iter, 0>::template get<Idx>();
+		else
+		{
+			return recursive_unpack<Iter, 0>::template get<Idx>();
+		}
 	}
 };
 

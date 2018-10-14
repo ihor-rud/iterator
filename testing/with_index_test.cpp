@@ -43,42 +43,42 @@ TYPED_TEST(with_index_test, vector_with_single_elem)
 	}
 }
 
-// DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 1);
-// DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 2);
+DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 1);
+DEFINE_VECTOR_TEST(with_index_test, vector_with_tuple, 2);
 
-// TYPED_TEST(with_index_test, normal_map)
-// {
-// 	std::map<TypeParam, TypeParam> container = {{{}, {}}};
+TYPED_TEST(with_index_test, normal_map)
+{
+	std::map<TypeParam, TypeParam> container = {{{}, {}}};
 
-// 	for(auto& [key, val, index] : with_index(container))
-// 	{
-// 		EXPECT_EQ(val, container[key]);
-// 		EXPECT_EQ(&val, &container[key]);
+	for(auto& [key, val, index] : with_index(container))
+	{
+		EXPECT_EQ(val, container[key]);
+		EXPECT_EQ(&val, &container[key]);
 
-// 		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
-// 		static_assert(std::is_same_v<TypeParam, decltype(val)>);
-// 		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
-// 	}
+		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
+		static_assert(std::is_same_v<TypeParam, decltype(val)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
+	}
 
-// 	for(const auto& [key, val, index] : with_index(container))
-// 	{
-// 		EXPECT_EQ(val, container[key]);
-// 		EXPECT_EQ(&val, &container[key]);
+	for(const auto& [key, val, index] : with_index(container))
+	{
+		EXPECT_EQ(val, container[key]);
+		EXPECT_EQ(&val, &container[key]);
 
-// 		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
-// 		static_assert(std::is_same_v<const TypeParam, decltype(val)>);
-// 		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
-// 	}
+		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
+		static_assert(std::is_same_v<const TypeParam, decltype(val)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
+	}
 
-// 	for(auto&& [key, val, index] : with_index(container))
-// 	{
-// 		EXPECT_EQ(val, container[key]);
-// 		EXPECT_EQ(&val, &container[key]);
+	for(auto&& [key, val, index] : with_index(container))
+	{
+		EXPECT_EQ(val, container[key]);
+		EXPECT_EQ(&val, &container[key]);
 
-// 		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
-// 		static_assert(std::is_same_v<TypeParam, decltype(val)>);
-// 		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
-// 	}
-// }
+		static_assert(std::is_same_v<const TypeParam, decltype(key)>);
+		static_assert(std::is_same_v<TypeParam, decltype(val)>);
+		static_assert(std::is_same_v<const std::size_t, decltype(index)>);
+	}
+}
 
 } // namespace iterator

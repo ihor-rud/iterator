@@ -20,7 +20,7 @@ set_target_properties(GTEST_MAIN PROPERTIES IMPORTED_LOCATION "${DEFAULT_IMPORT_
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-add_executable(tests testing/with_index_test.cpp)
+add_executable(tests testing/with_index_test.cpp testing/mpl.2_test.cpp)
 target_include_directories(tests PRIVATE "${CMAKE_SOURCE_DIR}/testing")
 target_link_libraries(tests ITERATOR GTEST GTEST_MAIN BOOST_INTERFACE Threads::Threads)
-target_compile_options(tests PRIVATE -Wall -Wextra -Wfatal-errors)
+target_compile_options(tests PRIVATE -Wall -Wextra -Werror -Wfatal-errors)
