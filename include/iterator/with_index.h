@@ -1,5 +1,5 @@
 #pragma once
-#include "indexed_iterator.h"
+#include <iterator/detail/indexed_iterator.h>
 
 namespace iterator {
 
@@ -12,14 +12,12 @@ public:
 
 	auto begin()
 	{
-		using std::begin;
-		return indexed_iterator{begin(obj)};
+		return detail::indexed_iterator{std::begin(obj)};
 	}
 
 	auto end()
 	{
-		using std::end;
-		return indexed_iterator{end(obj)};
+		return detail::indexed_iterator{std::end(obj)};
 	}
 
 private:
